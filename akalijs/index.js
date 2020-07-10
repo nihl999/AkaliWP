@@ -22,18 +22,25 @@ class Akali {
     };
 //get summoner method -> basic functionality
     async getSummoner(server, endpoint = 'BYSUMMONERNAME', data){
-        const searchServer = servers[server];
-        switch(endpoint.toUpperCase()){
+        const searchServer = this.servers[server];
+        switch(endpoint){
             case 'BYSUMMONERNAME':
-                break;
+                try{   
+                    const response = await axios.get(`https://${searchServer}/lol/summoner/v4/summoners/by-name/${data.summonerName}`,
+                    {headers: {'X-Riot-Token': this.apiKey}});
+                    console.log(response.data);
+                    return response;
+                }catch(error){
+                    console.log(error);
+                }
             case 'BYSUMMONERID':
-                break;
+                return 0;
             case 'BYACCOUNTID':
-                break;
+                return 0;
             case 'BYPUUID':
-                break;
+                return 0;
         };
     };
 };
-//instancing akalijs
-const akalijs = new Akali('AAAAAAA');
+
+module.exports = Akali;
